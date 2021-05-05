@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface PokeRepository {
 
-    suspend fun getPokemonNamesFlow():Flow<PokeModelObject?>
+    suspend fun getPokemonNamesFlow(inferiorLimit:Int, superiorLimit:Int):Flow<PokeModelObject?>
 
 
     suspend fun getAllPokemons():Flow<MutableList<PokeModelObject>>

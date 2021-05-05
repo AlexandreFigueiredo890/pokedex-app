@@ -9,6 +9,7 @@ import com.example.pokedex.refactor_task_force.repository.PokeRepositoryImp
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
 
 class PokeListViewModel(
     val mRepository: PokeRepositoryImp
@@ -35,6 +36,8 @@ class PokeListViewModel(
 
 
 
+
+
     fun fetchView(){
         GlobalScope.launch{
             delay(7000L)
@@ -46,15 +49,77 @@ class PokeListViewModel(
 
 
 
-    fun fetchPokeNames() {
+    fun initialFetchPokeNames() {
 
         CoroutineScope(Dispatchers.IO).launch {
-            mRepository.getPokemonNamesFlow().collect() { pokemon ->
+            mRepository.getPokemonNamesFlow(0,100).collect() { pokemon ->
 
                 pokemon?.let {
                     mRepository.insertPokemon(it)
                 }
 
+            }
+        }
+    }
+
+    fun clickEventFetchPokeNames(pokeRow:Int){
+        when(pokeRow){
+             1 ->{
+
+                 CoroutineScope(Dispatchers.IO).launch {
+                     mRepository.getPokemonNamesFlow(101,200).collect(){pokemon ->
+                         pokemon?.let{
+                             mRepository.insertPokemon(it)
+                         }
+                     }
+                 }
+             }
+            2 ->{
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    mRepository.getPokemonNamesFlow(201, 300).collect(){pokemon ->
+                        pokemon?.let {
+                            mRepository.insertPokemon(it)
+                        }
+                    }
+                }
+            }
+            3 ->{
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    mRepository.getPokemonNamesFlow(301,400).collect(){pokemon ->
+                        pokemon?.let{
+                            mRepository.insertPokemon(it)
+                        }
+                    }
+                }
+            }
+            4 ->{
+                CoroutineScope(Dispatchers.IO).launch{
+                    mRepository.getPokemonNamesFlow(401,500).collect(){pokemon ->
+                        pokemon?.let{
+                            mRepository.insertPokemon(it)
+                        }
+                    }
+                }
+            }
+            5 ->{
+                CoroutineScope(Dispatchers.IO).launch {
+                    mRepository.getPokemonNamesFlow(501,600).collect(){pokemon ->
+                        pokemon?.let {
+                            mRepository.insertPokemon(it)
+                        }
+                    }
+                }
+            }
+            6 ->{
+                CoroutineScope(Dispatchers.IO).launch {
+                    mRepository.getPokemonNamesFlow(601,700).collect(){pokemon ->
+                        pokemon?.let {
+                            mRepository.insertPokemon(it)
+                        }
+                    }
+                }
             }
         }
     }

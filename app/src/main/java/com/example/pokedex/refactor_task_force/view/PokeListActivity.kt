@@ -5,11 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ScrollView
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,7 +21,7 @@ import com.example.pokedex.refactor_task_force.view.adapter.PokeListAdapter
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class PokeListActivity() : AppCompatActivity(){
+class PokeListActivity() : AppCompatActivity(), View.OnClickListener{
 
 
     private var mPokemonRecycler: RecyclerView? = null//Pokemons' list recycler view
@@ -35,9 +33,13 @@ class PokeListActivity() : AppCompatActivity(){
     private var pokedex_logo: ImageView? = null //Logo for inicial loading screen
     private var pikachu_container: LinearLayout? = null //Linear layout wich conatins the pikachu's lottie animation
     private var pokeball_deco: LinearLayout? = null
+    private var morePokemons: ImageView? = null
 
     private val mPokeListViewModel: PokeListViewModel by viewModel()
     private val mPokeListAdapter: PokeListAdapter by inject()
+
+
+    private var pokeRow:Int = 0
 
 
 
@@ -70,7 +72,7 @@ class PokeListActivity() : AppCompatActivity(){
 
 
         mPokeListViewModel.refresh()
-        mPokeListViewModel.fetchPokeNames()
+        mPokeListViewModel.initialFetchPokeNames()
         mPokeListViewModel.loadAllPokemons()
 
 
@@ -82,6 +84,7 @@ class PokeListActivity() : AppCompatActivity(){
 
 
         onObserver()//Observes the ViewModel's variables
+        onListener()//Listens to click events
 
 
 
@@ -96,6 +99,10 @@ class PokeListActivity() : AppCompatActivity(){
             }
 
         })
+    }
+
+    private fun onListener(){
+        morePokemons?.setOnClickListener(this)
     }
 
 
@@ -118,6 +125,7 @@ class PokeListActivity() : AppCompatActivity(){
         pokedex_logo = findViewById(R.id.logo_pokedex)
         pikachu_container = findViewById(R.id.container_pikachu)
         pokeball_deco = findViewById(R.id.poke_symball_deco)
+        morePokemons = findViewById(R.id.add_new_list_icon)
 
 
     }
@@ -164,10 +172,18 @@ class PokeListActivity() : AppCompatActivity(){
                 pikachu_container?.visibility = View.VISIBLE
                 mPikachu?.visibility = View.VISIBLE
                 pokeball_deco?.visibility = View.VISIBLE
+                morePokemons?.visibility = View.VISIBLE
                 load_poke?.visibility = View.GONE
                 pokedex_logo?.visibility = View.GONE
 
             } else{
+                pokeSearch?.visibility = View.GONE
+                topView?.visibility = View.GONE
+                scroll_view?.visibility = View.GONE
+                pikachu_container?.visibility = View.GONE
+                mPikachu?.visibility = View.GONE
+                pokeball_deco?.visibility = View.GONE
+                morePokemons?.visibility = View.GONE
                 load_poke?.visibility = View.VISIBLE
                 pokedex_logo?.visibility = View.VISIBLE
             }
@@ -175,7 +191,26 @@ class PokeListActivity() : AppCompatActivity(){
 
     }
 
+    override fun onClick(v: View?) {
+        val id = v?.id
+        if(id == R.id.add_new_list_icon){
+            mPokeListViewModel.fetchView()
+            val toast:Toast = Toast.makeText(this,"Carregando nova lista de Pokémons, pera ae ! :)", Toast.LENGTH_LONG)
+            toast.setGravity(Gravity.TOP,0,-10)
+            toast.show()
+            pokeRow = pokeRow + 1
+            mPokeListViewModel.refresh()
+            if(pokeRow <= 6){
+                mPokeListViewModel.clickEventFetchPokeNames(pokeRow)
+                mPokeListViewModel.loadAllPokemons()
+            } else {
+                pokeRow = 0
+                mPokeListViewModel.initialFetchPokeNames()
+                mPokeListViewModel.loadAllPokemons()
+            }
 
+        }
+    }
 
 
 }

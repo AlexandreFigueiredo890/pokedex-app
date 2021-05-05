@@ -26,10 +26,10 @@ class PokeRepositoryImp(
     private var thePokemonList: MutableList<PokeModelObject> = arrayListOf()
 
 
-    override suspend fun getPokemonNamesFlow(): Flow<PokeModelObject?> = flow {
-        var id:Int = 0
+    override suspend fun getPokemonNamesFlow(inferiorLimit:Int, superiorLimit:Int): Flow<PokeModelObject?> = flow {
+        var id:Int = inferiorLimit
         
-        while(id<=100){
+        while(id<=superiorLimit){
             var pke = PokeApi.getPokeName(id.toString()).body()
 
 
