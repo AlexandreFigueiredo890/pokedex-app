@@ -12,19 +12,19 @@
         android:id="@+id/loading_curtain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@color/white"/>
 
     <ImageView
         android:id="@+id/pokeball_back"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
-        android:src="@drawable/pokeball"
-        app:tint="@color/white"
-        android:visibility="gone"
+        android:layout_width="350dp"
+        android:layout_height="300dp"
         android:alpha="0.25"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:src="@drawable/pokeball"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
 
     <ImageView
@@ -33,7 +33,7 @@
         android:layout_height="150dp"
         android:layout_marginTop="50dp"
         android:layout_marginRight="50dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,10 +41,10 @@
         android:id="@+id/back_icon"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_marginBottom="330dp"
+        android:layout_marginBottom="630dp"
         android:layout_marginLeft="30dp"
-        android:visibility="gone"
-        android:src="@drawable/ic_baseline_reply_24"
+        android:visibility="visible"
+        android:src="@drawable/ic_arrow_back"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

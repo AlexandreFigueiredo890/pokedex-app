@@ -13,7 +13,7 @@
         android:id="@+id/loading_curtain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@color/white"/>
 
     <TextView
@@ -36,9 +36,9 @@
         android:layout_height="300dp"
         android:src="@drawable/pokeball"
         app:tint="@color/white"
-        android:visibility="gone"
+        android:visibility="visible"
         android:alpha="0.25"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -48,7 +48,7 @@
         android:id="@+id/poke_image"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
