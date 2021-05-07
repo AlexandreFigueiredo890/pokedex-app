@@ -34,8 +34,15 @@ class PokeInfoFragment : Fragment() {
 
 
         val pokeNameTextView = view.findViewById<TextView>(R.id.poke_name_field)
+        val pokeHeightTextView = view.findViewById<TextView>(R.id.poke_height_field)
+        val pokeWeightTextView = view.findViewById<TextView>(R.id.poke_weight_field)
+
+        //val s1 = mPokemons.getHeight()
+        //val s2 = mPokemons.getWeight()
 
         pokeNameTextView.text = mPokemons.getName()
+        pokeHeightTextView.text = "Altura: ${mPokemons.getHeight()}"
+        pokeWeightTextView.text= "Peso: ${mPokemons.getWeight()}"
     }
 
 

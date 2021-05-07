@@ -21,8 +21,19 @@ class FrameListenerImp(
 
         intent.putExtras(bundle)
 
+       // val x = model.height
+       // val x1 = model.weight
+
         model.name?.let {
             mPokemons.putName(it)
+        }
+
+        model.height?.let{
+            mPokemons.putHeight(it)
+        }
+
+        model.weight?.let{
+            mPokemons.putWeight(it)
         }
 
         view.context.startActivity(intent)

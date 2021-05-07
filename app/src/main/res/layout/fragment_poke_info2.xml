@@ -27,4 +27,28 @@
         android:layout_marginRight="180dp"
         android:text="Pokemon name here" />
 
+    <TextView
+        android:id="@+id/poke_height_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/purple_700"
+        android:textSize="18sp"
+        android:text="altura aqui"
+        app:layout_constraintTop_toBottomOf="@+id/poke_name_field"
+        app:layout_constraintLeft_toLeftOf="@+id/poke_name_field"/>
+
+    <TextView
+        android:id="@+id/poke_weight_field"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="peso do pokemon aqui"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        android:textColor="@color/purple_700"
+        app:layout_constraintTop_toBottomOf="@+id/poke_height_field"
+        app:layout_constraintLeft_toLeftOf="@+id/poke_height_field"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
