@@ -4,8 +4,10 @@ package com.example.pokedex.refactor_task_force.module
 import com.example.pokedex.refactor_task_force.API.PokeObjectApiService
 import com.example.pokedex.refactor_task_force.constants.PokeConstants
 import com.example.pokedex.refactor_task_force.listener.FrameListenerImp
+import com.example.pokedex.refactor_task_force.model.PokemonEntity
 import com.example.pokedex.refactor_task_force.repository.PokeRepositoryImp
 import com.example.pokedex.refactor_task_force.view.InfoViewModel
+import com.example.pokedex.refactor_task_force.view.PokeInfoFragment
 import com.example.pokedex.refactor_task_force.view.PokeListActivity
 import com.example.pokedex.refactor_task_force.view.PokeListViewModel
 import com.example.pokedex.refactor_task_force.view.adapter.PokeListAdapter
@@ -21,6 +23,8 @@ object myModules {
 
 
     val instance = module{
+        single { PokemonEntity() }
+        factory { PokeInfoFragment() }
         viewModel{
             PokeListViewModel(
                 mRepository = PokeRepositoryImp(
@@ -34,29 +38,36 @@ object myModules {
             )
 
         }
-    }
-
-    val instanceForInfo = module{
         viewModel {
             InfoViewModel()
         }
-    }
-
-    val adapterDependency = module {
-        single { PokeListActivity() }
         factory { PokeListAdapter(
                 FrameListenerImp(
-                        mActivity = get(),
-                        mContext = get()
+                        mPokemons = get()
                 )
         ) }
     }
 
+    //val instanceForInfo = module{
+       // viewModel {
+           // InfoViewModel()
+        //}
+    //}
+
+    //val adapterDependency = module {
+        //single { PokeListActivity() }
+        //single { PokemonEntity() }
+        //factory { PokeListAdapter(
+                //FrameListenerImp(
+                        //mPokemons = get()
+               // )
+       // ) }
+   // }
+
 
     val appComponent = listOf(
-              instance,
-        adapterDependency,
-        instanceForInfo
+              instance
+
 
     )
 }

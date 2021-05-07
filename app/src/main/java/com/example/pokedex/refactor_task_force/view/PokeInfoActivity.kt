@@ -1,15 +1,19 @@
 package com.example.pokedex.refactor_task_force.view
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.fragment.app.add
 import androidx.lifecycle.Observer
 import com.airbnb.lottie.LottieAnimationView
 import com.example.pokedex.R
 import com.squareup.picasso.Picasso
+import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
+import kotlin.concurrent.fixedRateTimer
 
 class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
 
@@ -19,8 +23,11 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
     private var back_icon:ImageView? = null
     private var swablu:LottieAnimationView? = null
     private var name_field: TextView? = null
+    private var bottomSheet:View? = null
 
     private val mInfoViewModel: InfoViewModel by viewModel()
+    private val mInfoFragment: PokeInfoFragment by inject()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +46,10 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
         mInfoViewModel.fetchView()
         onObserver()
         onListener()
+
+        supportFragmentManager.beginTransaction()
+                .add(R.id.the_bottom_sheet,mInfoFragment)
+                .commit()
     }
 
     private fun getData(){
@@ -60,6 +71,7 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
         back_icon = findViewById(R.id.back_icon)
         swablu = findViewById(R.id.swablu)
         name_field = findViewById(R.id.pke_name)
+        bottomSheet = findViewById(R.id.the_bottom_sheet)
     }
 
 
@@ -72,6 +84,7 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
                 poke_image?.visibility = View.GONE
                 back_icon?.visibility = View.GONE
                 name_field?.visibility= View.GONE
+                bottomSheet?.visibility = View.GONE
 
 
             } else {
@@ -82,6 +95,7 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
                 poke_image?.visibility = View.VISIBLE
                 back_icon?.visibility = View.VISIBLE
                 name_field?.visibility = View.VISIBLE
+                bottomSheet?.visibility = View.VISIBLE
 
             }
         })
