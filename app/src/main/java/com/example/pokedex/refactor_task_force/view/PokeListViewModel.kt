@@ -21,8 +21,8 @@ class PokeListViewModel(
     private var mListPokeIds = MutableLiveData<List<String>>()
     var mid: LiveData<List<String>> = mListPokeIds
 
-    private var mPokemonList = MutableLiveData<MutableList<PokeModelObject>>()
-    var mpokemonList: LiveData<MutableList<PokeModelObject>> = mPokemonList
+    private var mPokemonList = MutableLiveData<List<PokeModelObject>>()
+    var mpokemonList: LiveData<List<PokeModelObject>> = mPokemonList
 
     private var mFilteredPokemonList = MutableLiveData<MutableList<PokeModelObject>>()
     var mfilteredpokemonList: LiveData<MutableList<PokeModelObject>> = mFilteredPokemonList
@@ -55,7 +55,7 @@ class PokeListViewModel(
             mRepository.getPokemonNamesFlow(0,100).collect() { pokemon ->
 
                 pokemon?.let {
-                    mRepository.insertPokemon(it)
+                    mRepository.insertPokeInRoom(it)
                 }
 
             }
@@ -69,7 +69,7 @@ class PokeListViewModel(
                  CoroutineScope(Dispatchers.IO).launch {
                      mRepository.getPokemonNamesFlow(101,200).collect(){pokemon ->
                          pokemon?.let{
-                             mRepository.insertPokemon(it)
+                             mRepository.insertPokeInRoom(it)
                          }
                      }
                  }
@@ -79,7 +79,7 @@ class PokeListViewModel(
                 CoroutineScope(Dispatchers.IO).launch {
                     mRepository.getPokemonNamesFlow(201, 300).collect(){pokemon ->
                         pokemon?.let {
-                            mRepository.insertPokemon(it)
+                            mRepository.insertPokeInRoom(it)
                         }
                     }
                 }
@@ -89,7 +89,7 @@ class PokeListViewModel(
                 CoroutineScope(Dispatchers.IO).launch {
                     mRepository.getPokemonNamesFlow(301,400).collect(){pokemon ->
                         pokemon?.let{
-                            mRepository.insertPokemon(it)
+                            mRepository.insertPokeInRoom(it)
                         }
                     }
                 }
@@ -98,7 +98,7 @@ class PokeListViewModel(
                 CoroutineScope(Dispatchers.IO).launch{
                     mRepository.getPokemonNamesFlow(401,500).collect(){pokemon ->
                         pokemon?.let{
-                            mRepository.insertPokemon(it)
+                            mRepository.insertPokeInRoom(it)
                         }
                     }
                 }
@@ -107,7 +107,7 @@ class PokeListViewModel(
                 CoroutineScope(Dispatchers.IO).launch {
                     mRepository.getPokemonNamesFlow(501,600).collect(){pokemon ->
                         pokemon?.let {
-                            mRepository.insertPokemon(it)
+                            mRepository.insertPokeInRoom(it)
                         }
                     }
                 }
@@ -116,7 +116,7 @@ class PokeListViewModel(
                 CoroutineScope(Dispatchers.IO).launch {
                     mRepository.getPokemonNamesFlow(601,700).collect(){pokemon ->
                         pokemon?.let {
-                            mRepository.insertPokemon(it)
+                            mRepository.insertPokeInRoom(it)
                         }
                     }
                 }
@@ -125,10 +125,13 @@ class PokeListViewModel(
     }
 
     fun loadAllPokemons(){
+
+        val aux: MutableList<PokeModelObject> = arrayListOf()
         CoroutineScope(Dispatchers.IO + Job()).launch {
-            mRepository.getAllPokemons().collect(){pokemonStream ->
-                mPokemonList.postValue(pokemonStream)
+            mRepository.pokeDb.pokeDao().getAllPokemonsRoom().collect(){
+                mPokemonList.postValue(it)
             }
+
         }
     }
 
@@ -164,7 +167,7 @@ class PokeListViewModel(
 
 
         CoroutineScope(Dispatchers.IO).launch{
-            mRepository.refreshDataBase()
+            mRepository.refreshRoom()
 
         }
 
@@ -173,17 +176,25 @@ class PokeListViewModel(
 
     }
 
-    fun searchForPokemon(query:String){
-
-        CoroutineScope(Dispatchers.IO + Job()).launch {
-            mRepository.searchForPke(query){
-                 mFilteredPokemonList.postValue(it)
+    fun searchForPokemonInRoom(query:String){
+        CoroutineScope(Dispatchers.IO).launch{
+            mRepository.searchForPokemonInRoom(query){
+                mFilteredPokemonList.postValue(it)
             }
         }
-
-
-
     }
+
+    //fun searchForPokemon(query:String){
+
+        //CoroutineScope(Dispatchers.IO + Job()).launch {
+            //mRepository.searchForPke(query){
+               //  mFilteredPokemonList.postValue(it)
+            //}
+        //}
+
+
+
+  //  }
 
 
 

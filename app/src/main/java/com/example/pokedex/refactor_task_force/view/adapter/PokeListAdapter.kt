@@ -16,7 +16,7 @@ class PokeListAdapter(
 ):RecyclerView.Adapter<PokeListViewHolder>() {
 
 
-    private var mList:MutableList<PokeModelObject> = arrayListOf()
+    private lateinit  var mList:List<PokeModelObject>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PokeListViewHolder {
         return PokeListViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.row_pokemons, parent, false))
@@ -36,7 +36,7 @@ class PokeListAdapter(
 
 
 
-    fun updateAdapter(list:MutableList<PokeModelObject>){
+    fun updateAdapter(list:List<PokeModelObject>){
 
         notifyDataSetChanged()
         mList = list

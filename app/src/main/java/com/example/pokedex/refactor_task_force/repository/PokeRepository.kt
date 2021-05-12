@@ -7,6 +7,18 @@ import kotlinx.coroutines.flow.Flow
 
 interface PokeRepository {
 
+
+
+    suspend fun refreshRoom()
+
+
+    suspend fun searchForPokemonInRoom(quey:String, onDataChangedCallback: (MutableList<PokeModelObject>) -> Unit)
+
+
+    //suspend fun getAllPokeRoom():Flow<MutableList<PokeModelObject>>
+
+    suspend fun insertPokeInRoom(model:PokeModelObject)
+
     suspend fun getPokemonNamesFlow(inferiorLimit:Int, superiorLimit:Int):Flow<PokeModelObject?>
 
 

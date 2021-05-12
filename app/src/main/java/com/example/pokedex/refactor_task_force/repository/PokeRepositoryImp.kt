@@ -1,8 +1,11 @@
 package com.example.pokedex.refactor_task_force.repository
 
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import com.example.pokedex.refactor_task_force.API.PokeObjectApiListener.PokeObjectApiListener
 import com.example.pokedex.refactor_task_force.API.PokeObjectApiService
+import com.example.pokedex.refactor_task_force.Database.PokeDatabase
 import com.example.pokedex.refactor_task_force.model.PokeModelObject
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.database.DataSnapshot
@@ -12,21 +15,77 @@ import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class PokeRepositoryImp(
-    val PokeApi: PokeObjectApiService
+    val PokeApi: PokeObjectApiService,
+    val pokeDb:PokeDatabase
 ):PokeRepository {
+
+
+
+
 
 
 
     private var thePokemonList: MutableList<PokeModelObject> = arrayListOf()
 
 
+
+    override suspend fun refreshRoom() {
+        pokeDb.pokeDao().deleteAll()
+    }
+
+    override suspend fun searchForPokemonInRoom(query: String, onDataChangedCallback: (MutableList<PokeModelObject>) -> Unit) {
+
+        var aux:MutableList<PokeModelObject> = arrayListOf()
+        var auxForNotEmpty:MutableList<PokeModelObject> = arrayListOf()
+
+
+        if(query.isNotEmpty()){
+            aux.clear()
+            val snapshot = pokeDb.pokeDao().loadPokemonsForQuery()
+            for( h in snapshot){
+                if(h.name?.contains(query) == true){
+                    aux.add(h)
+                }
+            }
+
+            onDataChangedCallback(aux)
+        } else {
+            auxForNotEmpty.clear()
+            auxForNotEmpty = pokeDb.pokeDao().loadPokemonsForQuery()
+            onDataChangedCallback(auxForNotEmpty)
+        }
+
+    }
+
+
+    //override suspend fun getAllPokeRoom(): Flow<MutableList<PokeModelObject>> = flow {
+       //val pokeList:MutableList<PokeModelObject> = pokeDb.pokeDao().getAllPokemonsRoom()
+
+
+
+        //val aux:MutableList<PokeModelObject> = arrayListOf()
+        //for (h in pokeList){
+          // aux.add(h)
+       // }
+
+       // emit(aux)
+  //  }
+
+
+    override suspend fun insertPokeInRoom(model: PokeModelObject) {
+        pokeDb.pokeDao().insertPoke(model)
+    }
+
+
     override suspend fun getPokemonNamesFlow(inferiorLimit:Int, superiorLimit:Int): Flow<PokeModelObject?> = flow {
+
         var id:Int = inferiorLimit
         
         while(id<=superiorLimit){
@@ -99,7 +158,7 @@ class PokeRepositoryImp(
         val pokeId = ref.push().key
 
 
-        ref.child(pokeId.toString()).setValue(PokeModelObject(pokeId, model.id, model.name))
+        //ref.child(pokeId.toString()).setValue(PokeModelObject(pokeId, model.id, model.name))
     }
 
 

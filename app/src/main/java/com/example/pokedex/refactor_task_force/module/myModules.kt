@@ -1,7 +1,9 @@
 package com.example.pokedex.refactor_task_force.module
 
 
+import androidx.room.Room
 import com.example.pokedex.refactor_task_force.API.PokeObjectApiService
+import com.example.pokedex.refactor_task_force.Database.PokeDatabase
 import com.example.pokedex.refactor_task_force.constants.PokeConstants
 import com.example.pokedex.refactor_task_force.listener.FrameListenerImp
 import com.example.pokedex.refactor_task_force.model.PokemonEntity
@@ -11,7 +13,9 @@ import com.example.pokedex.refactor_task_force.view.PokeInfoFragment
 import com.example.pokedex.refactor_task_force.view.PokeListActivity
 import com.example.pokedex.refactor_task_force.view.PokeListViewModel
 import com.example.pokedex.refactor_task_force.view.adapter.PokeListAdapter
+
 import okhttp3.OkHttpClient
+import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.GlobalContext
 import org.koin.core.context.GlobalContext.get
@@ -24,6 +28,7 @@ object myModules {
 
     val instance = module{
         single { PokemonEntity() }
+        single{PokeDatabase.getDatabase(context=get())}
         factory { PokeInfoFragment() }
         viewModel{
             PokeListViewModel(
@@ -34,6 +39,9 @@ object myModules {
                        .addConverterFactory(GsonConverterFactory.create())
                        .build()
                        .create(PokeObjectApiService::class.java)
+                ,
+                    pokeDb = get()
+
                 )
             )
 

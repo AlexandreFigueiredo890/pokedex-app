@@ -131,12 +131,13 @@ class PokeListActivity() : AppCompatActivity(), View.OnClickListener{
     }
 
     private fun searchData(query:String){
-        mPokeListViewModel.searchForPokemon(query)
+        mPokeListViewModel.searchForPokemonInRoom(query)
     }
 
 
     override fun onResume() {
         super.onResume()
+
 
 
 
