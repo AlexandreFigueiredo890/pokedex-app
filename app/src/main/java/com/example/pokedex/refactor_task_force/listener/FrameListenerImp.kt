@@ -18,6 +18,15 @@ class FrameListenerImp(
         val bundle = Bundle()
         val intent = Intent(view.context, PokeInfoActivity::class.java)
         bundle.putString("id", model.id.toString())
+        bundle.putString("hp", model.stats[0].base_stat)
+        bundle.putString("attack", model.stats[1].base_stat)
+        bundle.putString("defense", model.stats[2].base_stat)
+        bundle.putString("speed", model.stats[5].base_stat)
+
+       val x = model.stats[0].modelEspecificStats?.name
+       val y = model.stats[1].modelEspecificStats?.name
+       val z = model.stats[2].modelEspecificStats?.name
+
 
         val pokeTest:PokeModelObject = model
 

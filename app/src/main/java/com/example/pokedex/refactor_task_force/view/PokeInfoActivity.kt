@@ -10,6 +10,7 @@ import androidx.fragment.app.add
 import androidx.lifecycle.Observer
 import com.airbnb.lottie.LottieAnimationView
 import com.example.pokedex.R
+import com.example.pokedex.refactor_task_force.model.PokemonEntity
 import com.squareup.picasso.Picasso
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -24,9 +25,14 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
     private var swablu:LottieAnimationView? = null
     private var name_field: TextView? = null
     private var bottomSheet:View? = null
+    private var hp:TextView? = null
+    private var attack:TextView? = null
+    private var defense:TextView? = null
+    private var speed:TextView? = null
 
     private val mInfoViewModel: InfoViewModel by viewModel()
     private val mInfoFragment: PokeInfoFragment by inject()
+    private val mPokemonEntity:PokemonEntity by inject()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +62,15 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
         val extras = intent.extras
         val id = extras?.getString("id")
         val name = extras?.getString("name")
+        val hpValue = extras?.getString("hp")
+        val attackValue = extras?.getString("attack")
+        val defenseValue = extras?.getString("defense")
+        val speedValue = extras?.getString("speed")
+
+        hp?.text = "HP: ${hpValue}"
+        attack?.text = "ATTACK: ${attackValue}"
+        defense?.text = "DEFENSE: ${defenseValue}"
+        speed?.text = "SPEED: ${speedValue}"
         name_field?.setText(name)
         Picasso.with(this).load("https://pokeres.bastionbot.org/images/pokemon/${id}.png").into(poke_image)
     }
@@ -72,6 +87,10 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
         swablu = findViewById(R.id.swablu)
         name_field = findViewById(R.id.pke_name)
         bottomSheet = findViewById(R.id.the_bottom_sheet)
+        hp = findViewById(R.id.hp_pokemon)
+        attack = findViewById(R.id.attack_pokemon)
+        defense = findViewById(R.id.defense_pokemon)
+        speed = findViewById(R.id.speed_pokemon)
     }
 
 
@@ -85,6 +104,10 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
                 back_icon?.visibility = View.GONE
                 name_field?.visibility= View.GONE
                 bottomSheet?.visibility = View.GONE
+                hp?.visibility = View.GONE
+                attack?.visibility = View.GONE
+                defense?.visibility = View.GONE
+                speed?.visibility = View.GONE
 
 
             } else {
@@ -96,6 +119,10 @@ class PokeInfoActivity : AppCompatActivity(), View.OnClickListener {
                 back_icon?.visibility = View.VISIBLE
                 name_field?.visibility = View.VISIBLE
                 bottomSheet?.visibility = View.VISIBLE
+                hp?.visibility = View.VISIBLE
+                attack?.visibility = View.VISIBLE
+                defense?.visibility = View.VISIBLE
+                speed?.visibility = View.VISIBLE
 
             }
         })
