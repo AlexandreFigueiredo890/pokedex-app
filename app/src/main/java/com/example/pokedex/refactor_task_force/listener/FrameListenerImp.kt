@@ -19,6 +19,8 @@ class FrameListenerImp(
         val intent = Intent(view.context, PokeInfoActivity::class.java)
         bundle.putString("id", model.id.toString())
 
+        val pokeTest:PokeModelObject = model
+
         intent.putExtras(bundle)
 
        // val x = model.height

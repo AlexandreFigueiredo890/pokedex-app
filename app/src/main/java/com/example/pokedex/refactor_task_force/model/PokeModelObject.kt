@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity
-data class PokeModelObject(
+ data class PokeModelObject(
     @PrimaryKey(autoGenerate = true)
     val pid:Int =0,
     @SerializedName("id")
@@ -20,5 +20,13 @@ data class PokeModelObject(
     val height:String? = null,
     @SerializedName("weight")
     @ColumnInfo(name = "weight")
-    val weight:String? = null
+    val weight:String? = null,
+    @SerializedName("stats")
+    @ColumnInfo(name="stats")
+    val stats:List<StatsModel>
+
 )
+
+
+
+
